@@ -1,4 +1,5 @@
 use crate::api::Api;
+use crate::api::liquid::LiquidSymbolReply;
 use crate::api::mexc::{MexcCandlesReply, MexcSymbolsReply};
 
 mod api;
