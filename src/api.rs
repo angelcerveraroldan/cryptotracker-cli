@@ -1,4 +1,5 @@
 pub mod mexc;
+pub mod liquid;
 
 pub struct Api {
     name: String,

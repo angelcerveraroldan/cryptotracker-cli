@@ -1,4 +1,3 @@
-use std::string::ToString;
 use crate::api::{Api, Candle};
 use serde::{de, Deserialize, Deserializer, Serialize};
 
