@@ -1,5 +1,5 @@
 use std::string::ToString;
-use crate::api::Api;
+use crate::api::{Api, Candle};
 use serde::{de, Deserialize, Deserializer, Serialize};
 
 #[derive(Deserialize, Debug)]
@@ -23,6 +23,19 @@ pub struct MexcCandleReply {
     pub low: String,
     pub volume: String,
     pub amount: String,
+}
+
+impl MexcCandleReply {
+    fn to_candle(&self) -> Candle {
+        Candle {
+            timestamp: self.timestamp,
+            open: self.open.parse::<f32>().expect("Could not parse sting to int"),
+            close: self.close.parse::<f32>().expect("Could not parse sting to int"),
+            high: self.high.parse::<f32>().expect("Could not parse sting to int"),
+            low: self.low.parse::<f32>().expect("Could not parse sting to int"),
+            volume: Some(self.volume.parse::<f32>().expect("Could not parse sting to int")),
+        }
+    }
 }
 
 impl MexcSymbolsReply {
@@ -79,7 +92,7 @@ impl MexcCandlesReply {
             .await?)
     }
 
-    pub async fn get_from_api() -> Vec<MexcCandleReply> {
+    pub async fn get_from_api() -> Vec<Candle> {
         let mexc_api: Api = Api {
             name: String::from("mexc"),
             base: String::from("https://www.mexc.com"),
@@ -91,5 +104,8 @@ impl MexcCandlesReply {
             .await
             .expect("Could not get symbols from mexc")
             .data
+            .into_iter()
+            .map(|x| x.to_candle())
+            .collect()
     }
 }
