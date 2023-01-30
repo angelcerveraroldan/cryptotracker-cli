@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use crate::api::{Api, ApiMethods};
-use crate::api::mexc::{MexcCandlesReply, MexcSymbolsReply};
+use crate::api::mexc::{MexcSymbolsReply};
 use crate::api::dydx::{DyDxSymbolsReply};
 
 mod api;

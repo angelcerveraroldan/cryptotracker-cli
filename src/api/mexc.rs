@@ -1,4 +1,4 @@
-use crate::api::{Api, Candle, CandlesReply, SymbolsReply};
+use crate::api::{Api, Candle, SymbolsReply};
 use serde::{Deserialize, Deserializer};
 
 #[derive(Deserialize, Debug)]
