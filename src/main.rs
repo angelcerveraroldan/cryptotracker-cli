@@ -1,12 +1,21 @@
-use crate::api::Api;
-use crate::api::liquid::LiquidSymbolReply;
+use std::collections::HashMap;
+use crate::api::{Api, ApiMethods};
 use crate::api::mexc::{MexcCandlesReply, MexcSymbolsReply};
+use crate::api::dydx::{DyDxSymbolsReply};
 
 mod api;
 
 #[tokio::main]
 async fn main() {
-    let symbols = MexcSymbolsReply::get_symbols_arr().await;
+    let dydx_api: Api = Api::from(
+        String::from("mexc"),
+        String::from("https://api.dydx.exchange"),
+        HashMap::new(),
+        Some(String::from("/v3/markets")),
+        Some(String::from("/open/api/v2/market/kline?symbol=BTC_USDT&interval=1m")),
+    );
 
-    println!("{:?}", MexcCandlesReply::get_from_api().await)
+    let x = dydx_api.get_symbols::<DyDxSymbolsReply>().await;
+
+    println!("{:?}", x);
 }
