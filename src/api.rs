@@ -4,8 +4,7 @@ use std::iter::repeat_with;
 use async_trait::async_trait;
 use serde::{de, Deserialize, Serialize};
 
-pub mod mexc;
-pub mod dydx;
+pub mod apis_models;
 
 pub struct Api {
     name: String,
