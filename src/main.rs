@@ -4,15 +4,21 @@ use crate::api::apis_models::mexc::{MexcSymbolsReply};
 use crate::api::apis_models::dydx::{DyDxSymbolsReply};
 
 mod api;
+mod utils;
 
 #[tokio::main]
 async fn main() {
     let dydx_api: Api = Api::from(
-        String::from("mexc"),
+        String::from("dydx"),
         String::from("https://api.dydx.exchange"),
-        HashMap::new(),
+        HashMap::from([
+            ("1m".to_string(), "1MIN".to_string()),
+            ("1h".to_string(), "1HOUR".to_string()),
+            ("1d".to_string(), "1DAY".to_string()),
+        ]),
+        // Make the path string have parameters which will have to be
         Some(String::from("/v3/markets")),
-        Some(String::from("/open/api/v2/market/kline?symbol=BTC_USDT&interval=1m")),
+        Some(String::from("v3/candles/{symbol}")),
     );
 
     let x = dydx_api.get_symbols::<DyDxSymbolsReply>().await;
