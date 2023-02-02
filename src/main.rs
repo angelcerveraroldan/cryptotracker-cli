@@ -1,27 +1,34 @@
 use std::collections::HashMap;
+use url::form_urlencoded::parse;
 use crate::api::{Api, ApiMethods};
-use crate::api::apis_models::mexc::{MexcSymbolsReply};
-use crate::api::apis_models::dydx::{DyDxSymbolsReply};
+use crate::api::apis_models::mexc::{MexcCandlesReply, MexcSymbolsReply};
+use crate::api::apis_models::dydx::{DyDxCandleReply, DyDxCandlesReply, DyDxSymbolsReply};
 
 mod api;
 mod utils;
 
 #[tokio::main]
 async fn main() {
-    let dydx_api: Api = Api::from(
-        String::from("dydx"),
-        String::from("https://api.dydx.exchange"),
-        HashMap::from([
-            ("1m".to_string(), "1MIN".to_string()),
-            ("1h".to_string(), "1HOUR".to_string()),
-            ("1d".to_string(), "1DAY".to_string()),
-        ]),
-        // Make the path string have parameters which will have to be
-        Some(String::from("/v3/markets")),
-        Some(String::from("v3/candles/{symbol}")),
-    );
+    // let dydx_api: Api = Api::dydx();
+    //
+    // let x = dydx_api.get_symbols::<DyDxSymbolsReply>().await;
+    //
+    // let params = HashMap::from([
+    //     ("symbol".to_string(), "CELO-USD".to_string()),
+    // ]);
+    //
+    // let y = dydx_api.get_candles::<DyDxCandlesReply>("x".to_string(), params).await;
+    //
+    // println!("{:?}", y)
 
-    let x = dydx_api.get_symbols::<DyDxSymbolsReply>().await;
+    let mexc: Api = Api::mexc();
 
-    println!("{:?}", x);
+    let params = HashMap::from([
+        ("interval".to_string(), "1,".to_string()),
+        ("symbol".to_string(), "PAXG_USDP".to_string())
+    ]);
+
+    let c = mexc.get_candles::<MexcCandlesReply>("x".to_string(), params).await;
+
+    println!("{:?}", c)
 }
