@@ -72,11 +72,11 @@ pub struct Candle {
     pub volume: Option<f32>,
 }
 
-trait SymbolsReply {
+pub trait SymbolsReply {
     fn get_symbols_arr(&self) -> Vec<String>;
 }
 
-trait CandleReply {
+pub trait CandleReply {
     fn get_candles_arr(&self) -> Vec<Candle>;
 }
 

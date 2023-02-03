@@ -2,7 +2,7 @@ use crate::api::{Api, Candle, CandleReply, SymbolsReply};
 use serde::{Deserialize, Deserializer};
 
 #[derive(Deserialize, Debug)]
-struct MexcSymbolReply {
+pub struct MexcSymbolReply {
     symbol: String,
     symbol_partition: String,
 }
