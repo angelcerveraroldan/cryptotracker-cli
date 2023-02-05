@@ -1,9 +1,10 @@
+use std::process::exit;
 use crate::cli::args::{Args, Exchange};
 use clap::Parser;
 
 pub struct GetQuery {
-    exchange: Exchange,
-    symbol: String,
+    pub exchange: Exchange,
+    pub symbol: String,
 }
 
 pub enum Query {
@@ -17,7 +18,10 @@ pub fn get_query() -> Query {
     let exchange = match args.exchange.to_lowercase().as_str() {
         "dydx" => Exchange::DyDx,
         "mexc" => Exchange::Mexc,
-        _ => panic!("Exchange not found")
+        _ => {
+            println!("<EXCHANGE> should be either 'dydx' or 'mexc'");
+            exit(1);
+        }
     };
 
     match args.command.to_lowercase().as_str() {
@@ -26,6 +30,9 @@ pub fn get_query() -> Query {
             symbol: args.market.expect("No market has been specified, so candles cannot be obtained"),
         }),
         "list" => Query::List(exchange),
-        _ => panic!("<COMMAND> should be either 'list' or 'get'")
+        _ => {
+            println!("<COMMAND> should be either 'list' or 'get'");
+            exit(1);
+        }
     }
 }

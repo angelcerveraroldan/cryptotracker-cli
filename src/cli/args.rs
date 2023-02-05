@@ -7,11 +7,10 @@ use crate::api::Api;
 /// - rccli list dydx
 #[derive(Parser)]
 pub struct Args {
-    /// Command to be run, one of the following:
-    /// 1. get
-    /// 2. list
+    /// Command to be run ( get / list )
+    #[arg(short, long)]
     pub(crate) command: String,
-    /// Exchange, such as dydx or mexc
+    /// Exchange ( dydx / mexc )
     #[arg(short, long)]
     pub(crate) exchange: String,
     /// Market, such as BTC_USDT

@@ -1,6 +1,4 @@
-use std::any::Any;
 use std::collections::HashMap;
-use url::form_urlencoded;
 use regex::Regex;
 
 fn hash_to_params(params: HashMap<String, String>) -> String {

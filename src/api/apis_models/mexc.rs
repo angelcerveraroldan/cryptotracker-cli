@@ -1,5 +1,5 @@
-use crate::api::{Api, Candle, CandleReply, SymbolsReply};
-use serde::{Deserialize, Deserializer};
+use crate::api::{Candle, CandleReply, SymbolsReply};
+use serde::Deserialize;
 
 #[derive(Deserialize, Debug)]
 pub struct MexcSymbolReply {

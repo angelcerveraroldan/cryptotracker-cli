@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use serde::{Deserialize, Deserializer};
+use serde::Deserialize;
 use crate::api::{Candle, CandleReply, SymbolsReply};
 
 #[derive(Deserialize, Debug)]

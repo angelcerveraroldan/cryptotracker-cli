@@ -21,7 +21,7 @@ and parses it into the struct that was passed.
 # Todos
 
 - [x] Get Api Symbols
-- [ ] Get Api Candles / Orderbook data
-- [ ] Gather data from multiple APIs
-    - [ ] Make this concurrent
+- [x] Get Api Candles / Orderbook data
+- [x] Setup multiple APIs
+    - [ ] Get candles from multiple
 - [ ] Display the data in a graph

@@ -1,8 +1,6 @@
 use std::collections::HashMap;
-use std::fmt::{Debug, format};
-use std::iter::repeat_with;
+use std::fmt::Debug;
 use async_trait::async_trait;
-use serde::{de, Deserialize, Serialize};
 use serde::de::DeserializeOwned;
 use crate::utils;
 
@@ -17,22 +15,6 @@ pub struct Api {
 }
 
 impl Api {
-    pub fn from(
-        name: String,
-        base_path: String,
-        intervals: HashMap<String, String>,
-        get_symbol_path: Option<String>,
-        get_candle_path: Option<String>,
-    ) -> Self {
-        Api {
-            name,
-            base_path,
-            intervals,
-            get_symbol_path,
-            get_candle_path,
-        }
-    }
-
     pub fn dydx() -> Self {
         Api {
             name: String::from("dydx"),
@@ -56,7 +38,7 @@ impl Api {
                 ("1h".to_string(), "1HOUR".to_string()),
                 ("1d".to_string(), "1DAY".to_string()),
             ]),
-            get_symbol_path: Some(String::from("")),
+            get_symbol_path: Some(String::from("/open/api/v2/market/symbols")),
             get_candle_path: Some(String::from("/open/api/v2/market/kline")),
         }
     }
@@ -105,13 +87,15 @@ impl ApiMethods for Api {
     }
 
     async fn get_symbols<S: SymbolsReply + DeserializeOwned>(&self) -> Vec<String> {
-        reqwest::get(
-            format!("{}{}",
-                    self.base_path,
-                    self.get_symbol_path
-                        .clone()
-                        .expect("No path to symbols found")
-            ))
+        let url = format!(
+            "{}{}",
+            self.base_path,
+            self.get_symbol_path
+                .clone()
+                .expect("No path to symbols found")
+        );
+
+        reqwest::get(url)
             .await.expect("Could not get symbols")
             .json::<S>()
             .await.expect("Could not parse symbols")
